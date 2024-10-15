@@ -33,11 +33,13 @@ const URL_SUBSTITUTIONS = new Map<string, string>([
 	["deleteByIds", "delete_by_ids"],
 ]);
 
-function toNdJson(arr: object[]): string {
-	return arr.reduce((acc, o) => acc + JSON.stringify(o) + "\n", "").trim();
-}
+export function MakeVectorizeFetcher(indexId: string) {
+	if (indexId !== "v2") {
+		throw new Error(
+			"Only v2 indexes are supported in local dev mode at the moment."
+		);
+	}
 
-export function MakeVectorizeFetcher(indexId: string, indexVersion: string) {
 	return async function (request: Request): Promise<Response> {
 		const accountId = await getAccountId();
 
@@ -68,7 +70,7 @@ export function MakeVectorizeFetcher(indexId: string, indexVersion: string) {
 			: {
 					error: apiResponse.errors[0].message,
 					code: apiResponse.errors[0].code,
-			  };
+				};
 
 		return new Response(JSON.stringify(newResponse), {
 			status: res.status,

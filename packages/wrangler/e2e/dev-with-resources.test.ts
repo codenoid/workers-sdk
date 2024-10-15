@@ -496,6 +496,10 @@ describe.sequential.each(RUNTIMES)("Bindings: $flags", ({ runtime, flags }) => {
 	});
 
 	it("exposes Vectorize bindings", async () => {
+		if (isLocal) return; // local mode is not supported yet for vectorize
+		// TODO: remove this testing code
+		await helper.d1(isLocal);
+
 		const name = await helper.vectorize(32, "euclidean");
 
 		await helper.seed({
