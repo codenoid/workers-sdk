@@ -1418,8 +1418,7 @@ export function getResolvedBindings(
 			...bindings,
 			vars: maskedVars,
 		},
-		undefined,
-		!args.remote
+		{ local: !args.remote }
 	);
 
 	return bindings;
